@@ -1288,6 +1288,29 @@ Julio Trecenti
 <p>Quão longe de <span class="math inline">\(\mu\)</span> a média de uma amostra pode cair.</p>
 </div>
 </section>
+<section class="slide level2">
+<h2>O caso da aula: o tempo de resposta de uma API</h2>
+<div class="colunas">
+<div>
+<div class="caixa caso">
+<p><span class="rotulo">O problema</span></p>
+<p>Uma equipe monitora uma API. O tempo de resposta de cada requisição varia, e o histórico mostra que o desvio-padrão é <span class="math inline">\(\sigma = 40\)</span> ms. O tempo <strong>médio</strong> <span class="math inline">\(\mu\)</span> é desconhecido.</p>
+<p>Para estimá-lo, a equipe mede amostras de <span class="math inline">\(n = 64\)</span> requisições e calcula a média <span class="math inline">\(\bar X\)</span>. Pelo TLC,</p>
+<p><span class="math display">\[\bar X \sim N\Big(\mu;\; \frac{40^2}{64}\Big), \qquad \text{DP}(\bar X) = \frac{40}{\sqrt{64}} = 5 \text{ ms}.\]</span></p>
+</div>
+</div>
+<div>
+<div class="caixa exercicio">
+<p><span class="rotulo">O que vamos responder hoje</span></p>
+<ol type="1">
+<li>Com 95% de confiança, quão longe de <span class="math inline">\(\mu\)</span> a média de 64 requisições pode cair? (a <strong>margem de erro</strong>)</li>
+<li>Quantas requisições medir para essa distância cair para 5 ms? (o <strong>tamanho da amostra</strong>)</li>
+<li>Uma amostra deu <span class="math inline">\(\bar x = 207\)</span> ms. Entre que valores está <span class="math inline">\(\mu\)</span>? (o <strong>intervalo de confiança</strong>)</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
 <section class="slide level2 denso">
 <h2>Confiança e margem de erro</h2>
 <div class="colunas">
@@ -1296,7 +1319,7 @@ Julio Trecenti
 
 </div>
 <div class="miudo">
-<p>Tempo de resposta de uma API: <span class="math inline">\(\sigma = 40\)</span> ms e amostras de <span class="math inline">\(n = 64\)</span> requisições, então <span class="math inline">\(\text{DP}(\bar X) = 40/8 = 5\)</span> ms. Os pontos são 300 médias simuladas.</p>
+<p>Caso da API: <span class="math inline">\(\sigma = 40\)</span> ms e <span class="math inline">\(n = 64\)</span>, então <span class="math inline">\(\text{DP}(\bar X) = 5\)</span> ms. Os pontos são 300 médias simuladas.</p>
 </div>
 </div>
 <div>
@@ -1386,8 +1409,8 @@ Julio Trecenti
 </ul>
 </div>
 <div class="caixa fragment">
-<p><span class="rotulo">API, 95%, <span class="math inline">\(n = 64\)</span></span></p>
-<p><span class="math inline">\(\varepsilon = 1{,}96 \times 40/\sqrt{64} = 9{,}8\)</span> ms.</p>
+<p><span class="rotulo">Caso da API, pergunta 1</span></p>
+<p>Com <span class="math inline">\(\gamma = 95\%\)</span>, <span class="math inline">\(\sigma = 40\)</span> ms e <span class="math inline">\(n = 64\)</span>: <span class="math inline">\(\varepsilon = 1{,}96 \times 40/\sqrt{64} = 9{,}8\)</span> ms.</p>
 <p><code>stats.norm.interval(0.95, scale=40/np.sqrt(64))</code> devolve <span class="math inline">\((-9{,}8;\ 9{,}8)\)</span>.</p>
 </div>
 </div>
@@ -1402,7 +1425,8 @@ Julio Trecenti
 </div>
 </div>
 <div>
-<p>Isolando <span class="math inline">\(n\)</span> em <span class="math inline">\(\varepsilon = z\,\sigma/\sqrt{n}\)</span>:</p>
+<p><span class="rotulo">Caso da API, pergunta 2</span></p>
+<p>Isolando <span class="math inline">\(n\)</span> em <span class="math inline">\(\varepsilon = z\,\sigma/\sqrt{n}\)</span>, com <span class="math inline">\(\sigma = 40\)</span> ms:</p>
 <p><span class="math display">\[n = \Big(\frac{z \cdot \sigma}{\varepsilon}\Big)^2\]</span></p>
 <p>e arredonda <strong>para cima</strong>.</p>
 <div class="ctrl ctrl-tres">
@@ -1476,7 +1500,7 @@ Julio Trecenti
 <div>
 <div id="leg-troca" class="legendas">
 <div>
-<p>Em 95% das amostras, <span class="math inline">\(\bar X\)</span> cai a menos de <span class="math inline">\(\varepsilon = 9{,}8\)</span> de <span class="math inline">\(\mu\)</span>: dentro da faixa verde.</p>
+<p>Caso da API: em 95% das amostras, <span class="math inline">\(\bar X\)</span> cai a menos de <span class="math inline">\(\varepsilon = 9{,}8\)</span> ms de <span class="math inline">\(\mu\)</span>: dentro da faixa verde.</p>
 </div>
 <div>
 <p>Uma amostra deu <span class="math inline">\(\bar x = 206\)</span>, <strong>dentro</strong> da faixa. Então o intervalo <span class="math inline">\(206 \pm 9{,}8\)</span> <strong>contém</strong> <span class="math inline">\(\mu\)</span>.</p>
@@ -1598,7 +1622,7 @@ sortear outras 100 amostras
 </div>
 </section>
 <section class="slide level2 denso">
-<h2>Exemplo completo: a API</h2>
+<h2>Voltando ao caso da API</h2>
 <div class="colunas">
 <div>
 <div class="caixa caso">
