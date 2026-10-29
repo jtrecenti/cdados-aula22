@@ -1241,20 +1241,24 @@ Julio Trecenti
 <p>Uma média amostral muito improvável é um sinal de que a suposição sobre <span class="math inline">\(\mu\)</span> está errada.</p>
 </div>
 </section>
-<section class="slide level2 denso">
+<section class="slide level2 muito-denso">
 <h2>Exemplo: o treinamento funcionou?</h2>
 <div class="colunas">
 <div style="flex:.95">
-<div class="caixa caso">
+<div class="caixa caso enunciado">
 <p><span class="rotulo">Tempo até atender uma chamada</span></p>
-<p>O tempo <span class="math inline">\(X\)</span> de uma recepcionista segue uma <strong>exponencial</strong> com média 60 s e DP 60 s. Uma amostra de <strong>90</strong> recepcionistas fez um treinamento para atender mais rápido. Supondo que o treinamento <strong>não</strong> funcionou:</p>
+<p>O tempo <span class="math inline">\(X\)</span> de uma recepcionista segue uma <strong>exponencial</strong> com média 60 s e DP 60 s. Uma amostra de <strong>90</strong> recepcionistas fez um treinamento para atender mais rápido. Suponha que o treinamento <strong>não</strong> funcionou.</p>
+<p><strong>a)</strong> Qual a chance de uma recepcionista qualquer atender em menos de 40 s?<br>
+<strong>b)</strong> E de o tempo médio das 90 ficar abaixo de 40 s?<br>
+<strong>c)</strong> Abaixo de que tempo médio ficam só 1% das amostras de 90?<br>
+<strong>d)</strong> A amostra treinada teve <span class="math inline">\(\bar x = 40\)</span> s. O treinamento funcionou? Que suposição usamos?</p>
 </div>
 <div id="leg-treino" class="legendas">
 <div>
 <p>O tempo de <strong>uma</strong> chamada é muito variável: <span class="math inline">\(E(X) = 60\)</span> e <span class="math inline">\(\text{DP}(X) = 60\)</span>, com cauda longa à direita.</p>
 </div>
 <div>
-<p><strong>a)</strong> Uma recepcionista qualquer: <span class="math inline">\(P(X &lt; 40) = 1 - e^{-40/60} \approx\)</span> <strong>48,7%</strong>. Nada de especial.</p>
+<p><strong>a)</strong> <span class="math inline">\(P(X &lt; 40) = 1 - e^{-40/60} \approx\)</span> <strong>48,7%</strong>. Nada de especial.</p>
 <p><code>stats.expon.cdf(40, scale=60)</code></p>
 </div>
 <div>
@@ -1262,11 +1266,11 @@ Julio Trecenti
 <p><code>stats.norm.cdf(40, loc=60, scale=60/np.sqrt(90))</code></p>
 </div>
 <div>
-<p><strong>c)</strong> O corte dos 1% menores tempos médios: <span class="math inline">\(c \approx\)</span> <strong>45,3 s</strong>.</p>
+<p><strong>c)</strong> O corte <span class="math inline">\(c\)</span> com <span class="math inline">\(P(\bar X &lt; c) = 1\%\)</span>: <span class="math inline">\(c \approx\)</span> <strong>45,3 s</strong>.</p>
 <p><code>stats.norm.ppf(0.01, loc=60, scale=60/np.sqrt(90))</code></p>
 </div>
 <div>
-<p><strong>d)</strong> A amostra treinada teve <span class="math inline">\(\bar x = 40\)</span> s, <strong>abaixo do corte</strong>. Se o treino não funcionasse, isso seria raríssimo: há evidência de que funcionou. <strong>e)</strong> Suposição: <span class="math inline">\(n = 90\)</span> é grande o bastante para o TLC.</p>
+<p><strong>d)</strong> A amostra treinada teve <span class="math inline">\(\bar x = 40\)</span> s, <strong>abaixo do corte</strong>. Se o treino não funcionasse, isso seria raríssimo: há evidência de que funcionou. Suposição: <span class="math inline">\(n = 90\)</span> é grande o bastante para o TLC.</p>
 </div>
 </div>
 </div>
@@ -1284,29 +1288,33 @@ Julio Trecenti
 <p>Quão longe de <span class="math inline">\(\mu\)</span> a média de uma amostra pode cair.</p>
 </div>
 </section>
-<section class="slide level2">
-<h2>Onde caem as médias amostrais</h2>
+<section class="slide level2 denso">
+<h2>Confiança e margem de erro</h2>
 <div class="colunas">
-<div style="flex:1.45">
+<div style="flex:1.3">
 <div id="g-regiao">
 
 </div>
+<div class="miudo">
+<p>Tempo de resposta de uma API: <span class="math inline">\(\sigma = 40\)</span> ms e amostras de <span class="math inline">\(n = 64\)</span> requisições, então <span class="math inline">\(\text{DP}(\bar X) = 40/8 = 5\)</span> ms. Os pontos são 300 médias simuladas.</p>
+</div>
 </div>
 <div>
+<div class="caixa ideia def-par">
+<p><span class="rotulo">As duas definições andam juntas</span></p>
+<p><span class="math display">\[P(-\varepsilon &lt; \bar X - \mu &lt; \varepsilon) = \gamma\]</span></p>
+<ul>
+<li><strong>Coeficiente de confiança <span class="math inline">\(\gamma\)</span></strong>: a proporção das médias amostrais que queremos cobrir.</li>
+<li><strong>Margem de erro <span class="math inline">\(\varepsilon\)</span></strong>: a distância a <span class="math inline">\(\mu\)</span> que cobre essa proporção. Com probabilidade <span class="math inline">\(\gamma\)</span>, o erro <span class="math inline">\(\bar X - \mu\)</span> fica entre <span class="math inline">\(-\varepsilon\)</span> e <span class="math inline">\(\varepsilon\)</span>.</li>
+</ul>
+</div>
 <div class="ctrl">
 <p><label class="ctrl-rotulo">coeficiente de confiança, <i>γ</i> = <b id="reg-g-v"></b></label> <input type="range" id="reg-g" min="0.8" max="0.99" step="0.01" value="0.95"></p>
 </div>
 <div id="reg-contas" class="contas">
 
 </div>
-<div class="caixa ideia">
-<p><span class="rotulo">Margem de erro, <span class="math inline">\(\varepsilon\)</span></span></p>
-<p>É o maior erro, para mais ou para menos, entre <span class="math inline">\(\bar X\)</span> e <span class="math inline">\(\mu\)</span>, quando consideramos as <strong><span class="math inline">\(\gamma\)</span> médias amostrais mais próximas de <span class="math inline">\(\mu\)</span></strong>.</p>
 </div>
-</div>
-</div>
-<div class="miudo">
-<p>Tempo de resposta de uma API: <span class="math inline">\(\sigma = 40\)</span> ms, amostras de <span class="math inline">\(n = 64\)</span> requisições, então <span class="math inline">\(\text{DP}(\bar X) = 40/8 = 5\)</span> ms. Os pontos são 300 médias simuladas.</p>
 </div>
 </section>
 <section class="slide level2">
@@ -1356,12 +1364,12 @@ Julio Trecenti
 <div class="colunas">
 <div style="flex:1.2">
 <div class="passos-conta">
-<p><span class="math inline">\(P(-z &lt; Z &lt; z) = \gamma\)</span></p>
+<p><span class="math inline">\(P(-\varepsilon &lt; \bar X - \mu &lt; \varepsilon) = \gamma\)</span></p>
 <div class="fragment">
-<p><span class="math inline">\(P\Big(-z &lt; \dfrac{\bar X - \mu}{\sigma/\sqrt{n}} &lt; z\Big) = \gamma\)</span></p>
+<p><span class="math inline">\(P\Big(-\dfrac{\varepsilon}{\sigma/\sqrt{n}} &lt; Z &lt; \dfrac{\varepsilon}{\sigma/\sqrt{n}}\Big) = \gamma\)</span></p>
 </div>
 <div class="fragment">
-<p><span class="math inline">\(P\Big(|\bar X - \mu| &lt; z\,\dfrac{\sigma}{\sqrt{n}}\Big) = \gamma\)</span></p>
+<p>Como <span class="math inline">\(P(-z &lt; Z &lt; z) = \gamma\)</span>: <span class="math inline">\(\;\dfrac{\varepsilon}{\sigma/\sqrt{n}} = z\)</span></p>
 </div>
 <div class="fragment">
 <p><span class="math inline">\(\boxed{\varepsilon = z \cdot \dfrac{\sigma}{\sqrt{n}}}\)</span></p>
@@ -1380,7 +1388,7 @@ Julio Trecenti
 <div class="caixa fragment">
 <p><span class="rotulo">API, 95%, <span class="math inline">\(n = 64\)</span></span></p>
 <p><span class="math inline">\(\varepsilon = 1{,}96 \times 40/\sqrt{64} = 9{,}8\)</span> ms.</p>
-<p><code>stats.norm.ppf(0.975) * 40 / np.sqrt(64)</code></p>
+<p><code>stats.norm.interval(0.95, scale=40/np.sqrt(64))</code> devolve <span class="math inline">\((-9{,}8;\ 9{,}8)\)</span>.</p>
 </div>
 </div>
 </div>
@@ -3419,9 +3427,13 @@ padding: .5em .9em; font-size: .62em; }
       tPct.textContent = pct(g);
       let k = 0;
       XB.forEach((v, i) => { const ok = Math.abs(v - MU) < e; if (ok) k++; pts[i].setAttribute("class", ok ? "ponto-dentro" : "ponto-fora"); });
+      // A mesma conta em Python: o interval da normal de X̄ - μ, centrada em 0
+      // com DP 5, devolve (-ε, ε) direto.
       contas.innerHTML =
-        `γ = ${pct(g)} → z = ${nn(z)}<br>ε = ${nn(z)} × 40/√64 = <b>${nn(e)}</b> ms<br>` +
-        `região: ${nn(a)} a ${nn(b)}<br><span class="fraco">dentro: ${k} de ${K} médias (${pct(k / K, 1)})</span>`;
+        `P(${nn(-e, 1)} &lt; X̄ − μ &lt; ${nn(e, 1)}) = ${pct(g)}<br>` +
+        `ε = <b>${nn(e, 1)}</b> ms: médias entre ${nn(a, 1)} e ${nn(b, 1)}<br>` +
+        `<span class="fraco">stats.norm.interval(${g.toFixed(2)}, scale=5)<br>` +
+        `dentro: ${k} de ${K} médias (${pct(k / K, 1)})</span>`;
     });
     ctl.at();
   }
